@@ -7,7 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DailyneedBackenedRepoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DailyneedBackenedRepoApplication.class, args);
+			SpringApplication.run(DailyneedBackenedRepoApplication.class, args);
 	}
 
 }
+
+
