@@ -1,4 +1,5 @@
 package com.example.dailyneed_backened_repo.version;
+
 import com.example.dailyneed_backened_repo.version.repository.VersionRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +11,7 @@ public class VersionService {
         this.versionRepository = versionRepository;
     }
 
-    public String findAll() {
-
+    public String findCurrentVersion(){
         return versionRepository.findCurrentVersion();
     }
 }
