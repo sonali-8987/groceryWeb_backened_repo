@@ -1,5 +1,6 @@
 package com.example.dailyneed_backened_repo.version.view;
 
+import com.example.dailyneed_backened_repo.exceptions.VersionNotAvailableException;
 import com.example.dailyneed_backened_repo.version.VersionService;
 import com.example.dailyneed_backened_repo.version.repository.VersionResponse;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,14 @@ public class VersionController {
     }
 
     @GetMapping("/version")
-    public ResponseEntity<Object> versionResponse() {
+    public ResponseEntity<Object> versionResponse() throws VersionNotAvailableException {
 
-        String currentVersion = versionService.findCurrentVersion();
+        String currentVersion;
+        try {
+            currentVersion = versionService.findCurrentVersion();
+        } catch (VersionNotAvailableException e) {
+            return new ResponseEntity<>("version not found", HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(new VersionResponse(currentVersion), HttpStatus.OK);
     }
 
