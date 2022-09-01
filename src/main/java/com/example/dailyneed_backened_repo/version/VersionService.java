@@ -11,6 +11,7 @@ public class VersionService {
     }
 
     public String findAll() {
-        return versionRepository.findCurrentVersion().get(0);
+
+        return versionRepository.findCurrentVersion();
     }
 }

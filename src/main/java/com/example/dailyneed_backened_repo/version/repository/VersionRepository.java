@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface VersionRepository extends JpaRepository<Version, Long> {
-    @Query(value = "SELECT v.current_version  FROM version v", nativeQuery = true)
-    List<String> findCurrentVersion();
+    @Query(value = "SELECT v.current_version  FROM version v order by v.id desc limit(1)", nativeQuery = true)
+    String findCurrentVersion();
 
 }

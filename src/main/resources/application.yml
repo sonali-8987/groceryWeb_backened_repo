@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dailyneed
+    username: dailyneed
+    password: postgres
+
+application:
+  uiHost: http://localhost:3000

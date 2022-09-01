@@ -16,7 +16,7 @@ public class VersionController {
         this.versionService = versionService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @GetMapping("/version")
     public Map<String, String> versionResponse() {
         Map<String, String> currentVersion = new HashMap<>();
