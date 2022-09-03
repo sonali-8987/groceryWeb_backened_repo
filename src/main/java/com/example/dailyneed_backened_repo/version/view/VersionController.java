@@ -17,7 +17,7 @@ public class VersionController {
     }
 
     @GetMapping("/version")
-    public ResponseEntity<Object> versionResponse() throws VersionNotAvailableException {
+    public ResponseEntity versionResponse() throws VersionNotAvailableException {
 
         String currentVersion;
         try {

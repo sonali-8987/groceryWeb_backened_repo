@@ -24,7 +24,6 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -33,10 +32,27 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
 	implementation 'org.postgresql:postgresql:42.2.25'
 	implementation 'com.jcabi:jcabi-manifests:1.1'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.projectlombok:lombok:1.18.22'
+	testImplementation 'org.springframework.boot:spring-boot-test:2.7.3'
+	//implementation 'org.springframework:spring-beans:5.3.22'
+	testImplementation 'org.springframework:spring-test:5.3.22'
+	testImplementation 'org.hamcrest:hamcrest-library:2.2'
+	testImplementation("com.h2database:h2")
+	components {
+		withModule('org.springframework:spring-beans') {
+			allVariants {
+				withDependencyConstraints {
+					// Need to patch constraints because snakeyaml is an optional dependency
+					it.findAll { it.name == 'snakeyaml' }.each { it.version { strictly '1.19' } }
+				}
+			}
+		}
+	}
+
 
 }
 
