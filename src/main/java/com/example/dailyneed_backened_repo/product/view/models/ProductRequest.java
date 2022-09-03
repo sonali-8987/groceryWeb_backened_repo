@@ -1,28 +1,29 @@
 package com.example.dailyneed_backened_repo.product.view.models;
 
+import com.example.dailyneed_backened_repo.product.repository.Product;
+
 import java.math.BigDecimal;
 
 public class ProductRequest {
-    private String category;
     private String item;
     private BigDecimal price;
+    private Long category_id;
 
     public ProductRequest() {
     }
 
-    public ProductRequest(String category, String item, BigDecimal price) {
-
-        this.category = category;
+    public ProductRequest(String item, BigDecimal price, Long category_id) {
         this.item = item;
         this.price = price;
+        this.category_id = category_id;
     }
 
-    public String getCategory() {
-        return category;
+    public Long getCategory_id() {
+        return category_id;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategory_id(Long category_id) {
+        this.category_id = category_id;
     }
 
     public String getItem() {
@@ -39,6 +40,10 @@ public class ProductRequest {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Product getProduct() {
+        return new Product(item, price);
     }
 }
 

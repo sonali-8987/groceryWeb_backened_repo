@@ -1,5 +1,9 @@
 package com.example.dailyneed_backened_repo.product.view;
 
+import com.example.dailyneed_backened_repo.category.repository.CategoryRepository;
+import com.example.dailyneed_backened_repo.exceptions.CategoryNotFoundException;
+import com.example.dailyneed_backened_repo.exceptions.ItemAlreadyExistException;
+import com.example.dailyneed_backened_repo.exceptions.PriceCannotBeNegativeException;
 import com.example.dailyneed_backened_repo.product.ProductService;
 import com.example.dailyneed_backened_repo.product.view.models.ProductRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 @RestController
 public class ProductController {
-
     private ProductService productService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -25,23 +29,16 @@ public class ProductController {
 
     @PostMapping("/add")
     public ResponseEntity add(@Valid @RequestBody ProductRequest productRequest) {
-
-        BigDecimal price = productRequest.getPrice().setScale(2, RoundingMode.CEILING);
-        String item = productRequest.getItem();
-        String category = productRequest.getCategory();
-
-        if (item == "") {
-            return new ResponseEntity<>("item cannot be empty", HttpStatus.BAD_REQUEST);
+        try {
+            productService.add(productRequest);
+        } catch (ItemAlreadyExistException e) {
+            return new ResponseEntity<>("Item Already Present", HttpStatus.BAD_REQUEST);
+        } catch (CategoryNotFoundException e) {
+            return new ResponseEntity<>("Category Not Found", HttpStatus.BAD_REQUEST);
+        } catch (PriceCannotBeNegativeException e) {
+            return new ResponseEntity<>("Price Cannot Be Negative", HttpStatus.BAD_REQUEST);
         }
-        if (category == "") {
-            return new ResponseEntity<>("category cannot be empty", HttpStatus.BAD_REQUEST);
-        }
-        if (price.intValue() < 0) {
-            return new ResponseEntity<>("price cannot be negative", HttpStatus.BAD_REQUEST);
-        }
-        productService.add(productRequest.getCategory(), productRequest.getItem(), productRequest.getPrice());
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("Product Successfully Added", HttpStatus.OK);
     }
 
 }
