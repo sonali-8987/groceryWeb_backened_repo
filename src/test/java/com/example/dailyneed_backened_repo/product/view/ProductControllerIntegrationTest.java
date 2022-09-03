@@ -139,6 +139,16 @@ public class ProductControllerIntegrationTest {
 
         mockMvc.perform(get("/product"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":"+product.getId()+",\"item\":\"Onion\",\"price\":20.00,\"category\":{\"id\":"+category.getId()+",\"category\":\"VEGETABLES\"}}]"));
+                .andExpect(content().json("[{\"id\":" + product.getId() + ",\"item\":\"Onion\",\"price\":20.00,\"category\":{\"id\":" + category.getId() + ",\"category\":\"VEGETABLES\"}}]"));
     }
+
+    @Test
+    void shouldReturnBadRequestWhenNoProductsArePresent() throws Exception {
+        productRepository.deleteAll();
+
+        mockMvc.perform(get("/product"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Products Is Not Available"));
+    }
+
 }

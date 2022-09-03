@@ -47,9 +47,11 @@ public class ProductController {
     }
 
     @GetMapping("/product")
-    public List<Product> fetchAll()  {
-        return productService.getProducts();
+    public ResponseEntity  fetchAll()  {
+        List<Product> products = productService.getProducts();
+        if(products.isEmpty())
+            return new ResponseEntity<>("Products Is Not Available",HttpStatus.BAD_REQUEST);
 
+        return new ResponseEntity<>(products,HttpStatus.OK);
     }
-
 }
