@@ -18,10 +18,13 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = DailyneedBackenedRepoApplication.class)
@@ -126,5 +129,16 @@ public class ProductControllerIntegrationTest {
 
         assertThat(productRepository.findAll().size(), is(1));
 
+    }
+
+    @Test
+    void shouldReturnProductDetailsWhenProductIsPresent() throws Exception {
+
+        List<Product> products = new ArrayList<>();
+        products.add(product);
+
+        mockMvc.perform(get("/product"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"id\":"+product.getId()+",\"item\":\"Onion\",\"price\":20.00,\"category\":{\"id\":"+category.getId()+",\"category\":\"VEGETABLES\"}}]"));
     }
 }

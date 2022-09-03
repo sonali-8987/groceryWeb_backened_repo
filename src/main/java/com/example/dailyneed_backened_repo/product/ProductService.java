@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -39,6 +41,10 @@ public class ProductService {
 
     public boolean checkIfItemExist(String item) {
         return !(productRepository.findByItem(item).isEmpty());
+    }
+
+    public List<Product> getProducts() {
+        return productRepository.findAll();
     }
 }
 
