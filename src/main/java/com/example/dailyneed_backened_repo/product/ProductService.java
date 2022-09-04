@@ -22,12 +22,15 @@ public class ProductService {
 
     @Autowired
     private final ProductRepository productRepository;
-    @Autowired
+
+ @Autowired
     private final CategoryService categoryService;
 
-    public ProductService(ProductRepository productRepository, CategoryService categoryService) {
+
+    public ProductService(ProductRepository productRepository,CategoryService categoryService) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
+
     }
 
     public void add(ProductRequest productRequest) throws ItemAlreadyExistException, CategoryNotFoundException, PriceCannotBeNegativeException {
@@ -101,5 +104,6 @@ public class ProductService {
             throw new ProductNotFoundException();
         productRepository.deleteById(id);
     }
+
 }
 

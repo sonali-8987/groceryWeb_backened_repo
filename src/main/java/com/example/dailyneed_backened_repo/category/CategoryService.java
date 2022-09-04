@@ -5,6 +5,8 @@ import com.example.dailyneed_backened_repo.category.repository.CategoryRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CategoryService {
 
@@ -21,5 +23,9 @@ public class CategoryService {
 
     public Category findById(Long id) {
         return categoryRepository.findById(id).get();
+    }
+
+    public List<Category> getCategories() {
+        return categoryRepository.findAll();
     }
 }
