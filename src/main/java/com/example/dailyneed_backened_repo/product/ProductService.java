@@ -51,7 +51,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void updateProductDetails(ProductUpdateRequest productUpdateRequest) throws ProductNotFoundException, PriceCannotBeNegativeException{
+    public void updateProductDetails(ProductUpdateRequest productUpdateRequest) throws ProductNotFoundException, PriceCannotBeNegativeException, CategoryNotFoundException {
         Long id = productUpdateRequest.getId();
         if(!checkIfProductExist(id))
             throw new ProductNotFoundException();
@@ -59,6 +59,9 @@ public class ProductService {
         String item = productUpdateRequest.getItem();
         BigDecimal price = productUpdateRequest.getPrice();
         Long category_id = productUpdateRequest.getCategory_id();
+
+        if(!categoryService.checkIfCategoryExists(category_id))
+            throw new CategoryNotFoundException();
 
         Category category = categoryService.findById(category_id);
         Product product = new Product(id,item,price,category);
@@ -76,7 +79,6 @@ public class ProductService {
         if (product.getPrice().intValue() < 0)
             throw new PriceCannotBeNegativeException();
     }
-
     private void saveUpdatedProductDetails(Product product) {
         productRepository.save(product);
     }

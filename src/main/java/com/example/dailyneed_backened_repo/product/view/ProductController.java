@@ -59,7 +59,12 @@ public class ProductController {
         catch (PriceCannotBeNegativeException e) {
             return new ResponseEntity<>("Price Cannot Be Negative", HttpStatus.BAD_REQUEST);
 
-        } catch (ProductNotFoundException e) {
+        }
+        catch (CategoryNotFoundException e) {
+            return new ResponseEntity<>("Category Not Found", HttpStatus.BAD_REQUEST);
+        }
+
+        catch (ProductNotFoundException e) {
             return new ResponseEntity<>("Product Not Found",HttpStatus.BAD_REQUEST);
         }
     }
