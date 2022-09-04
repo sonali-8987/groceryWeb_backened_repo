@@ -251,4 +251,17 @@ public class ProductControllerIntegrationTest {
                 .andExpect(content()
                         .string("Product Removed Successfully"));
     }
+
+    @Test
+    void shouldNotRemoveProductWhenIdIsInvalid() throws Exception {
+
+        Product newProduct = productRepository.save(new Product("Potato", new BigDecimal(20), firstCategory));
+        Long id = newProduct.getId();
+
+        mockMvc.perform(delete("/delete/"+0)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isBadRequest())
+                .andExpect(content()
+                        .string("Product Not Found"));
+    }
 }

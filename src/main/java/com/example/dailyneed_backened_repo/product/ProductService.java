@@ -96,7 +96,9 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void removeProduct(Long id) {
+    public void removeProduct(Long id) throws ProductNotFoundException {
+        if(!checkIfProductExist(id))
+            throw new ProductNotFoundException();
         productRepository.deleteById(id);
     }
 }
