@@ -1,4 +1,4 @@
 package com.example.dailyneed_backened_repo.exceptions;
 
-public class ItemAlreadyExistException extends Exception{
+public class ProductNotFoundException extends Exception {
 }

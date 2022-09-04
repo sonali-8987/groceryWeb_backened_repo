@@ -1,7 +1,6 @@
 package com.example.dailyneed_backened_repo.product.repository;
 
 import com.example.dailyneed_backened_repo.category.repository.Category;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -32,6 +31,14 @@ public class Product {
 
     public Product(String item, BigDecimal price, Category category) {
 
+        this.item = item;
+        this.price = price;
+        this.category = category;
+    }
+
+    public Product(Long id, String item, BigDecimal price, Category category) {
+
+        this.id = id;
         this.item = item;
         this.price = price;
         this.category = category;

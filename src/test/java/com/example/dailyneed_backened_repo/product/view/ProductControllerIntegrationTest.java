@@ -23,7 +23,6 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -42,7 +41,7 @@ public class ProductControllerIntegrationTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    Category category;
+    Category firstCategory, secondCategory;
     Product product;
 
     @BeforeEach
@@ -50,8 +49,9 @@ public class ProductControllerIntegrationTest {
         productRepository.deleteAll();
         categoryRepository.deleteAll();
 
-        category = categoryRepository.save(new Category(1L, "VEGETABLES"));
-        product = productRepository.save(new Product("Onion", new BigDecimal(20), category));
+        firstCategory = categoryRepository.save(new Category(1L, "VEGETABLES"));
+        secondCategory = categoryRepository.save(new Category(2L, "FRUITS"));
+        product = productRepository.save(new Product("Onion", new BigDecimal(20), firstCategory));
     }
 
     @AfterEach
@@ -65,7 +65,7 @@ public class ProductControllerIntegrationTest {
         final String requestJson = "{" +
                 "\"item\": \"Tomato\"," +
                 "\"price\": 50," +
-                "\"category_id\": " + category.getId() +
+                "\"category_id\": " + firstCategory.getId() +
                 "}";
 
         mockMvc.perform(post("/add")
@@ -83,7 +83,7 @@ public class ProductControllerIntegrationTest {
         final String requestJson = "{" +
                 "\"item\": \"Onion\"," +
                 "\"price\": 50," +
-                "\"category_id\": " + category.getId() +
+                "\"category_id\": " + firstCategory.getId() +
                 "}";
 
         mockMvc.perform(post("/add")
@@ -101,7 +101,7 @@ public class ProductControllerIntegrationTest {
         final String requestJson = "{" +
                 "\"item\": \"Onion\"," +
                 "\"price\": -50," +
-                "\"category_id\": " + category.getId() +
+                "\"category_id\": " + firstCategory.getId() +
                 "}";
 
         mockMvc.perform(post("/add")
@@ -139,7 +139,7 @@ public class ProductControllerIntegrationTest {
 
         mockMvc.perform(get("/product"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":" + product.getId() + ",\"item\":\"Onion\",\"price\":20.00,\"category\":{\"id\":" + category.getId() + ",\"category\":\"VEGETABLES\"}}]"));
+                .andExpect(content().json("[{\"id\":" + product.getId() + ",\"item\":\"Onion\",\"price\":20.00,\"category\":{\"id\":" + firstCategory.getId() + ",\"category\":\"VEGETABLES\"}}]"));
     }
 
     @Test
@@ -151,4 +151,24 @@ public class ProductControllerIntegrationTest {
                 .andExpect(content().string("Products Is Not Available"));
     }
 
+    @Test
+    void shouldUpdateProductWhenValidDetails() throws Exception {
+        Long id = product.getId();
+        String item = "apple";
+        BigDecimal price = new BigDecimal(40);
+
+        final String requestJson = "{" +
+                "\"id\":" + id + "," +
+                "\"item\": \"" + item + "\"," +
+                "\"price\":" + price + "," +
+                "\"category_id\": " + secondCategory.getId() +
+                "}";
+
+        mockMvc.perform(put("/edit_product")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(requestJson))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .string("Product updated successfully"));
+    }
 }
