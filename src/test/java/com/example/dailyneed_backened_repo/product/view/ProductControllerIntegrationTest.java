@@ -215,4 +215,28 @@ public class ProductControllerIntegrationTest {
                         .string("Category Not Found"));
     }
 
+    @Test
+    void shouldNotUpdateProductWhenItemIsAlreadyPresent() throws Exception {
+
+        productRepository.save(new Product("Potato", new BigDecimal(20), firstCategory));
+
+        Long id = product.getId();
+        String item = "Potato";
+        BigDecimal price = new BigDecimal(20);
+
+        final String requestJson = "{" +
+                "\"id\":" + id + "," +
+                "\"item\": \"" + item + "\"," +
+                "\"price\":" + price + "," +
+                "\"category_id\": " + secondCategory.getId() +
+                "}";
+
+        mockMvc.perform(put("/edit_product")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(requestJson))
+                .andExpect(status().isBadRequest())
+                .andExpect(content()
+                        .string("Item Already Present"));
+    }
+
 }

@@ -63,6 +63,9 @@ public class ProductController {
         catch (CategoryNotFoundException e) {
             return new ResponseEntity<>("Category Not Found", HttpStatus.BAD_REQUEST);
         }
+        catch (ItemAlreadyExistException e) {
+            return new ResponseEntity<>("Item Already Present", HttpStatus.BAD_REQUEST);
+        }
 
         catch (ProductNotFoundException e) {
             return new ResponseEntity<>("Product Not Found",HttpStatus.BAD_REQUEST);
