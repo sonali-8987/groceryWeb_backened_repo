@@ -239,4 +239,16 @@ public class ProductControllerIntegrationTest {
                         .string("Item Already Present"));
     }
 
+    @Test
+    void shouldRemoveProductWhenIdIsValid() throws Exception {
+
+        Product newProduct = productRepository.save(new Product("Potato", new BigDecimal(20), firstCategory));
+        Long id = newProduct.getId();
+
+        mockMvc.perform(delete("/delete/"+id)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .string("Product Removed Successfully"));
+    }
 }
