@@ -51,7 +51,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void updateProductDetails(ProductUpdateRequest productUpdateRequest) throws ProductNotFoundException {
+    public void updateProductDetails(ProductUpdateRequest productUpdateRequest) throws ProductNotFoundException, PriceCannotBeNegativeException{
         Long id = productUpdateRequest.getId();
         if(!checkIfProductExist(id))
             throw new ProductNotFoundException();
@@ -63,6 +63,8 @@ public class ProductService {
         Category category = categoryService.findById(category_id);
         Product product = new Product(id,item,price,category);
 
+
+        validateUpdatedPrice(product);
         saveUpdatedProductDetails(product);
     }
 
@@ -70,9 +72,14 @@ public class ProductService {
         return !(productRepository.findById(id).isEmpty());
     }
 
+    public void validateUpdatedPrice(Product product) throws PriceCannotBeNegativeException {
+        if (product.getPrice().intValue() < 0)
+            throw new PriceCannotBeNegativeException();
+    }
 
     private void saveUpdatedProductDetails(Product product) {
         productRepository.save(product);
     }
+
 }
 

@@ -171,4 +171,27 @@ public class ProductControllerIntegrationTest {
                 .andExpect(content()
                         .string("Product updated successfully"));
     }
+
+    @Test
+    void shouldNotUpdateProductWhenPriceIsInvalid() throws Exception {
+        Long id = product.getId();
+        String item = "apple";
+        BigDecimal price = new BigDecimal(-40);
+
+        final String requestJson = "{" +
+                "\"id\":" + id + "," +
+                "\"item\": \"" + item + "\"," +
+                "\"price\":" + price + "," +
+                "\"category_id\": " + secondCategory.getId() +
+                "}";
+
+        mockMvc.perform(put("/edit_product")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(requestJson))
+                .andExpect(status().isBadRequest())
+                .andExpect(content()
+                        .string("Price Cannot Be Negative"));
+    }
+
+
 }

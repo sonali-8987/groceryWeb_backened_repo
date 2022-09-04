@@ -55,8 +55,13 @@ public class ProductController {
             productService.updateProductDetails(productUpdateRequest);
 
             return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
-        }  catch (ProductNotFoundException e) {
+        }
+        catch (PriceCannotBeNegativeException e) {
+            return new ResponseEntity<>("Price Cannot Be Negative", HttpStatus.BAD_REQUEST);
+
+        } catch (ProductNotFoundException e) {
             return new ResponseEntity<>("Product Not Found",HttpStatus.BAD_REQUEST);
         }
     }
+
 }
