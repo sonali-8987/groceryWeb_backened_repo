@@ -1,6 +1,7 @@
 package com.example.dailyneed_backened_repo.cart.view;
 
 import com.example.dailyneed_backened_repo.DailyneedBackenedRepoApplication;
+import com.example.dailyneed_backened_repo.cart.repository.Cart;
 import com.example.dailyneed_backened_repo.cart.repository.CartRepository;
 import com.example.dailyneed_backened_repo.category.repository.Category;
 import com.example.dailyneed_backened_repo.category.repository.CategoryRepository;
@@ -22,7 +23,9 @@ import java.math.BigDecimal;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -47,6 +50,8 @@ public class CartControllerIntegrationTest {
     Category category;
     Product product;
 
+    Cart cart;
+
     @BeforeEach
     public void beforeEach() {
         cartRepository.deleteAll();
@@ -57,6 +62,8 @@ public class CartControllerIntegrationTest {
         category = categoryRepository.save(new Category(1L, "VEGETABLES"));
 
         product = productRepository.save(new Product("Onion", new BigDecimal(20), category));
+
+        cart = cartRepository.save(new Cart(product, 2, 1L));
     }
 
     @AfterEach
@@ -79,9 +86,20 @@ public class CartControllerIntegrationTest {
                         .content(requestJson))
                 .andExpect(status().isOk());
 
-        assertThat(cartRepository.findAll().size(), is(1));
+        assertThat(cartRepository.findAll().size(), is(2));
 
     }
 
+    @Test
+    void shouldReturnCartDetailsWhenCartIsNotEmpty() throws Exception {
+        Long user_id = cart.getUser_id();
+        mockMvc.perform(get("/cart/item"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[{\"id\":" + cart.getId() + "," +
+                        "\"product\":{\"id\":" + product.getId() + ",\"item\":\"Onion\",\"price\":20.00,\"category\":{\"id\":" + category.getId() + ",\"category\":\"VEGETABLES\"}}," +
+                        "\"quantity\":" + cart.getQuantity() + "," +
+                        "\"user_id\":" + user_id +
+                        "}]"));
 
+    }
 }

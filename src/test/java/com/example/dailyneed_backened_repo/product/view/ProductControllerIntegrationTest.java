@@ -139,7 +139,14 @@ public class ProductControllerIntegrationTest {
 
         mockMvc.perform(get("/product"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":" + product.getId() + ",\"item\":\"Onion\",\"price\":20.00,\"category\":{\"id\":" + firstCategory.getId() + ",\"category\":\"VEGETABLES\"}}]"));
+                .andExpect(content().json("[" +
+                        "{" +
+                        "\"id\":" + product.getId() + "," +
+                        "\"item\":\"Onion\"," +
+                        "\"price\":20.00," +
+                        "\"category\":{\"id\":" + firstCategory.getId() + ",\"category\":\"VEGETABLES\"}" +
+                        "}" +
+                        "]"));
     }
 
     @Test

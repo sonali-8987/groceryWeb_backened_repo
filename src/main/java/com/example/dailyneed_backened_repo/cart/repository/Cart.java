@@ -39,6 +39,10 @@ public class Cart {
         return id;
     }
 
+    public Long getUser_id() {
+        return user_id;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -49,6 +53,10 @@ public class Cart {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public Integer getQuantity() {
+        return this.quantity;
     }
 
 }
