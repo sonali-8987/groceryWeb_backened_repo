@@ -23,7 +23,7 @@ public class ProductService {
     @Autowired
     private final ProductRepository productRepository;
 
- @Autowired
+    @Autowired
     private final CategoryService categoryService;
 
 

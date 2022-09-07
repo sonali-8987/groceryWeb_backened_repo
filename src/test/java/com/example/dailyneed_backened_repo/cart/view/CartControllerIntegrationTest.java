@@ -23,8 +23,7 @@ import java.math.BigDecimal;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -102,4 +101,22 @@ public class CartControllerIntegrationTest {
                         "}]"));
 
     }
+
+    @Test
+    void shouldRemoveCartItemWhenItemIdIsValid() throws Exception {
+
+        Product newProduct = productRepository.save(new Product("Potato", new BigDecimal(30), category));
+
+        Cart newCart = cartRepository.save(new Cart(newProduct, 3, 1L));
+
+
+        Long id = newCart.getId();
+
+        mockMvc.perform(delete("/cart/delete/"+id)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .string("Cart Item Removed Successfully"));
+    }
+
 }

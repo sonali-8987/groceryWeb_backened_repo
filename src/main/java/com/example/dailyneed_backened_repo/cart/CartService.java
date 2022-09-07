@@ -34,4 +34,8 @@ public class CartService {
     public List<Cart> getCart() {
         return cartRepository.findAll();
     }
+
+    public void removeCart(Long id) {
+        cartRepository.deleteById(id);
+    }
 }

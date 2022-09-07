@@ -50,7 +50,7 @@ public class ProductController {
     }
 
     @PutMapping(value = "/edit_product")
-    public ResponseEntity editProductDetails(@RequestBody ProductUpdateRequest productUpdateRequest) {
+public ResponseEntity editProductDetails(@RequestBody ProductUpdateRequest productUpdateRequest) {
 
         try {
             productService.updateProductDetails(productUpdateRequest);

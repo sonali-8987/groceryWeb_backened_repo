@@ -32,8 +32,15 @@ public class CartController {
     }
 
     @GetMapping("/item")
-    public ResponseEntity fetchAll() {
+    public ResponseEntity<List<Cart>> fetchAll() {
         List<Cart> cart = cartService.getCart();
         return new ResponseEntity<>(cart, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity removeCartItem(@PathVariable Long id) {
+        cartService.removeCart(id);
+        return new ResponseEntity<>("Cart Item Removed Successfully", HttpStatus.OK);
+
     }
 }
