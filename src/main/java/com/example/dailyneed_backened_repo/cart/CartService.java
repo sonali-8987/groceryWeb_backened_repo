@@ -53,10 +53,16 @@ public class CartService {
 
     }
 
-
-    public BigDecimal getPrice(Long id) {
-        Cart cart = cartRepository.findById(id).get();
-        return productService.getPrice(cart.getProduct().getId());
-
+    public BigDecimal calculateTotalPrice() {
+        List<Cart> carts = cartRepository.findAll();
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        BigDecimal price;
+        for(int i=0;i<carts.size();i++)
+        {
+            Cart cart = carts.get(i);
+            price = cart.getProduct().getPrice().multiply( new BigDecimal(cart.getQuantity()));
+            totalPrice=totalPrice.add(price);
+        }
+        return totalPrice;
     }
 }

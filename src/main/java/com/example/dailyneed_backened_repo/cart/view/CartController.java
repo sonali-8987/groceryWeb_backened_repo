@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -50,6 +51,13 @@ public class CartController {
         cartService.removeCart(id);
         return new ResponseEntity<>("Cart Item Removed Successfully", HttpStatus.OK);
 
+    }
+
+    @GetMapping(value = "/total_price")
+    public ResponseEntity<BigDecimal> totalPrice()
+    {
+        BigDecimal totalPrice = cartService.calculateTotalPrice();
+        return new ResponseEntity<>(totalPrice,HttpStatus.OK);
     }
 
 

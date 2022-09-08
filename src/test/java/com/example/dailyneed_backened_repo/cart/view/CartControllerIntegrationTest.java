@@ -120,4 +120,12 @@ public class CartControllerIntegrationTest {
                         .string("Cart Item Removed Successfully"));
     }
 
+    @Test
+    void shouldReturnTotalPriceWhenCartIsNotEmpty() throws Exception {
+        mockMvc.perform(get("/cart/total_price"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("40.00"));
+
+    }
+
 }
