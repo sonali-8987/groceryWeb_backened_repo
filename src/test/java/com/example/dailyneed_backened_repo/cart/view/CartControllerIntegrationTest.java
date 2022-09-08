@@ -94,10 +94,11 @@ public class CartControllerIntegrationTest {
         Long user_id = cart.getUser_id();
         mockMvc.perform(get("/cart/item"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":" + cart.getId() + "," +
-                        "\"product\":{\"id\":" + product.getId() + ",\"item\":\"Onion\",\"price\":20.00,\"category\":{\"id\":" + category.getId() + ",\"category\":\"VEGETABLES\"}}," +
+                .andExpect(content().json("[{" +
+                        "\"item\":\"Onion\"," +
                         "\"quantity\":" + cart.getQuantity() + "," +
-                        "\"user_id\":" + user_id +
+                        "\"price\":40.00" +
+
                         "}]"));
 
     }
@@ -118,6 +119,5 @@ public class CartControllerIntegrationTest {
                 .andExpect(content()
                         .string("Cart Item Removed Successfully"));
     }
-
 
 }
