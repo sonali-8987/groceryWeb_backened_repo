@@ -46,4 +46,7 @@ public class BillService {
         return billResponses;
     }
 
+    public BigDecimal totalBill() {
+        return billRepository.findTotalBill();
+    }
 }

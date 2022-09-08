@@ -21,11 +21,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -97,6 +93,21 @@ public class BillControllerIntegrationTest {
                         "\"price\":40.00" +
                         "}" +
                         "]"));
+
+    }
+
+    @Test
+    void shouldReturnTotalBillWhenCartIsNotEmpty() throws Exception {
+
+        BigDecimal price = product.getPrice();
+        Integer quantity = cart.getQuantity();
+
+        billRepository.save(new Bill(cart, price.multiply(new BigDecimal(quantity))));
+
+        mockMvc.perform(get("/total_bill"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("40.00"));
+
 
     }
 
