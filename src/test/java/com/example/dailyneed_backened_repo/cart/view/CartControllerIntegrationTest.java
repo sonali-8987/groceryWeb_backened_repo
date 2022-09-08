@@ -91,10 +91,10 @@ public class CartControllerIntegrationTest {
 
     @Test
     void shouldReturnCartDetailsWhenCartIsNotEmpty() throws Exception {
-        Long user_id = cart.getUser_id();
         mockMvc.perform(get("/cart/item"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{" +
+                        "\"id\": "+cart.getId()+"," +
                         "\"item\":\"Onion\"," +
                         "\"quantity\":" + cart.getQuantity() + "," +
                         "\"price\":40.00" +

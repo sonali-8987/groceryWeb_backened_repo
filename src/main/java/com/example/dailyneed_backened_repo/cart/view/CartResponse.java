@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 public class CartResponse {
 
     @JsonProperty
+    private Long id;
+    @JsonProperty
     private String item;
 
     @JsonProperty
@@ -16,7 +18,8 @@ public class CartResponse {
     @JsonProperty
     private BigDecimal price;
 
-    public CartResponse(String item, Integer quantity, BigDecimal price) {
+    public CartResponse(Long id, String item, Integer quantity, BigDecimal price) {
+        this.id = id;
         this.item = item;
         this.quantity = quantity;
         this.price = price;
