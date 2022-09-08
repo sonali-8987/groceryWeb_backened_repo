@@ -65,4 +65,8 @@ public class CartService {
         }
         return totalPrice;
     }
+
+    public void resetCart() {
+        cartRepository.deleteAll();
+    }
 }

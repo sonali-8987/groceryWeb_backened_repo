@@ -60,5 +60,13 @@ public class CartController {
         return new ResponseEntity<>(totalPrice,HttpStatus.OK);
     }
 
+    @DeleteMapping(value = "/reset")
+    public ResponseEntity resetCart() {
+        cartService.resetCart();
+        return new ResponseEntity<>("Cart Reset Successfully", HttpStatus.OK);
+
+    }
+
+
 
 }

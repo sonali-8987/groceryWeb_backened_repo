@@ -128,4 +128,11 @@ public class CartControllerIntegrationTest {
 
     }
 
+    @Test
+    void shouldResetCartWhenCartIsNotEmpty() throws Exception {
+        mockMvc.perform(delete("/cart/reset"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Cart Reset Successfully"));
+    }
+
 }
