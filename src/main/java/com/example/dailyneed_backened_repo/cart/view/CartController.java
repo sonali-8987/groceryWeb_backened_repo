@@ -3,12 +3,15 @@ package com.example.dailyneed_backened_repo.cart.view;
 import com.example.dailyneed_backened_repo.cart.CartService;
 import com.example.dailyneed_backened_repo.cart.repository.Cart;
 import com.example.dailyneed_backened_repo.cart.view.models.CartRequest;
+import com.example.dailyneed_backened_repo.product.ProductService;
+import com.example.dailyneed_backened_repo.product.repository.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -16,11 +19,14 @@ import java.util.List;
 public class CartController {
 
     @Autowired
-    private CartService cartService;
+    private final CartService cartService;
+
+
 
     @Autowired
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, ProductService productService) {
         this.cartService = cartService;
+
     }
 
     @PostMapping("/add")
@@ -43,4 +49,5 @@ public class CartController {
         return new ResponseEntity<>("Cart Item Removed Successfully", HttpStatus.OK);
 
     }
+
 }

@@ -1,6 +1,8 @@
-package com.example.dailyneed_backened_repo.cart.view;
+package com.example.dailyneed_backened_repo.bill.view;
 
 import com.example.dailyneed_backened_repo.DailyneedBackenedRepoApplication;
+import com.example.dailyneed_backened_repo.bill.repository.Bill;
+import com.example.dailyneed_backened_repo.bill.repository.BillRepository;
 import com.example.dailyneed_backened_repo.cart.repository.Cart;
 import com.example.dailyneed_backened_repo.cart.repository.CartRepository;
 import com.example.dailyneed_backened_repo.category.repository.Category;
@@ -15,15 +17,16 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,27 +35,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 @WithMockUser
-public class CartControllerIntegrationTest {
+public class BillControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private CartRepository cartRepository;
+    private BillRepository billRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CartRepository cartRepository;
 
     @Autowired
     private ProductRepository productRepository;
 
-    Category category;
-    Product product;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
-    Cart cart;
+    private Category category;
+    private Product product;
+
+    private Cart cart;
+
 
     @BeforeEach
     public void beforeEach() {
+
+        billRepository.deleteAll();
         cartRepository.deleteAll();
         productRepository.deleteAll();
         categoryRepository.deleteAll();
@@ -63,61 +72,32 @@ public class CartControllerIntegrationTest {
         product = productRepository.save(new Product("Onion", new BigDecimal(20), category));
 
         cart = cartRepository.save(new Cart(product, 2, 1L));
+
     }
 
     @AfterEach
     public void afterEach() {
+
+        billRepository.deleteAll();
         cartRepository.deleteAll();
         productRepository.deleteAll();
         categoryRepository.deleteAll();
-    }
-
-    @Test
-    void shouldSaveProductWhenDetailsAreValid() throws Exception {
-        final String requestJson = "{" +
-                "\"product_id\": \"" + product.getId() + "\"," +
-                "\"quantity\": 2," +
-                "\"user_id\": 1" +
-                "}";
-
-        mockMvc.perform(post("/cart/add")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
-                        .content(requestJson))
-                .andExpect(status().isOk());
-
-        assertThat(cartRepository.findAll().size(), is(2));
 
     }
 
     @Test
-    void shouldReturnCartDetailsWhenCartIsNotEmpty() throws Exception {
-        Long user_id = cart.getUser_id();
-        mockMvc.perform(get("/cart/item"))
+    void shouldReturnBillDetailsWhenCartIsNotEmpty() throws Exception {
+
+        mockMvc.perform(get("/bill"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[{\"id\":" + cart.getId() + "," +
-                        "\"product\":{\"id\":" + product.getId() + ",\"item\":\"Onion\",\"price\":20.00,\"category\":{\"id\":" + category.getId() + ",\"category\":\"VEGETABLES\"}}," +
-                        "\"quantity\":" + cart.getQuantity() + "," +
-                        "\"user_id\":" + user_id +
-                        "}]"));
+                .andExpect(content().json("[" +
+                        "{" +
+                        "\"id\":" + cart.getId() + "," +
+                        "\"cart_id\":" + cart.getId() + "," +
+                        "\"price\":40.00" +
+                        "}" +
+                        "]"));
 
     }
-
-    @Test
-    void shouldRemoveCartItemWhenItemIdIsValid() throws Exception {
-
-        Product newProduct = productRepository.save(new Product("Potato", new BigDecimal(30), category));
-
-        Cart newCart = cartRepository.save(new Cart(newProduct, 3, 1L));
-
-
-        Long id = newCart.getId();
-
-        mockMvc.perform(delete("/cart/delete/" + id)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content()
-                        .string("Cart Item Removed Successfully"));
-    }
-
 
 }

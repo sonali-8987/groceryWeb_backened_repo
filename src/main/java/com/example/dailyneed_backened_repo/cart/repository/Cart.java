@@ -1,11 +1,8 @@
 package com.example.dailyneed_backened_repo.cart.repository;
 
-
-import com.example.dailyneed_backened_repo.category.repository.Category;
 import com.example.dailyneed_backened_repo.product.repository.Product;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 
 
 @Entity
@@ -23,7 +20,7 @@ public class Cart {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name="user_id")
+    @Column(name = "user_id")
     private Long user_id;
 
     public Cart() {

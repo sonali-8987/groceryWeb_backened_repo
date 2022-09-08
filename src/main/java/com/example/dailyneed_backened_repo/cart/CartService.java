@@ -8,6 +8,7 @@ import com.example.dailyneed_backened_repo.product.repository.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -37,5 +38,12 @@ public class CartService {
 
     public void removeCart(Long id) {
         cartRepository.deleteById(id);
+    }
+
+
+    public BigDecimal getPrice(Long id) {
+        Cart cart = cartRepository.findById(id).get();
+        return productService.getPrice(cart.getProduct().getId());
+
     }
 }

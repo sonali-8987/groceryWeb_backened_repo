@@ -108,5 +108,9 @@ public class ProductService {
     public Product findById(Long product_id) {
         return productRepository.findById((product_id)).get();
     }
+
+    public BigDecimal getPrice(Long product_id) {
+        return productRepository.findPriceById(product_id);
+    }
 }
 
