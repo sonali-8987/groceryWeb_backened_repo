@@ -3,6 +3,7 @@ package com.example.dailyneed_backened_repo.cart.view;
 import com.example.dailyneed_backened_repo.cart.CartService;
 import com.example.dailyneed_backened_repo.cart.repository.Cart;
 import com.example.dailyneed_backened_repo.cart.view.models.CartRequest;
+import com.example.dailyneed_backened_repo.exceptions.ItemAlreadyAddedException;
 import com.example.dailyneed_backened_repo.product.ProductService;
 import com.example.dailyneed_backened_repo.product.repository.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ public class CartController {
     private final CartService cartService;
 
 
-
     @Autowired
     public CartController(CartService cartService, ProductService productService) {
         this.cartService = cartService;
@@ -31,10 +31,14 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity add(@Valid @RequestBody CartRequest cartRequest) {
+    public ResponseEntity add(@Valid @RequestBody CartRequest cartRequest) throws ItemAlreadyAddedException {
 
-        cartService.add(cartRequest);
-        return new ResponseEntity<>("Cart Item Successfully Added", HttpStatus.OK);
+        try {
+            cartService.add(cartRequest);
+            return new ResponseEntity<>("Cart Item Successfully Added", HttpStatus.OK);
+        } catch (ItemAlreadyAddedException e) {
+            return new ResponseEntity<>("Item Already Added", HttpStatus.BAD_REQUEST);
+        }
 
     }
 
@@ -54,10 +58,9 @@ public class CartController {
     }
 
     @GetMapping(value = "/total_price")
-    public ResponseEntity<BigDecimal> totalPrice()
-    {
+    public ResponseEntity<BigDecimal> totalPrice() {
         BigDecimal totalPrice = cartService.calculateTotalPrice();
-        return new ResponseEntity<>(totalPrice,HttpStatus.OK);
+        return new ResponseEntity<>(totalPrice, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/reset")
@@ -66,7 +69,6 @@ public class CartController {
         return new ResponseEntity<>("Cart Reset Successfully", HttpStatus.OK);
 
     }
-
 
 
 }

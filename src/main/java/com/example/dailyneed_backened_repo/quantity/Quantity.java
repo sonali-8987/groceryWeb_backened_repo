@@ -42,9 +42,6 @@ public class Quantity {
         return unit.convertToBase(magnitude);
     }
 
-    public Unit getUnit() {
-        return unit;
-    }
 
 }
 

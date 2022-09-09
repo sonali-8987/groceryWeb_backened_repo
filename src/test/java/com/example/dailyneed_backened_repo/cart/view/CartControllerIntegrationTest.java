@@ -74,8 +74,12 @@ public class CartControllerIntegrationTest {
 
     @Test
     void shouldSaveProductWhenDetailsAreValid() throws Exception {
+        Product newProduct;
+
+        newProduct = productRepository.save(new Product("Potato", new BigDecimal(20), category));
+
         final String requestJson = "{" +
-                "\"product_id\": \"" + product.getId() + "\"," +
+                "\"product_id\": \"" + newProduct.getId() + "\"," +
                 "\"magnitude\": 2," +
                 "\"unit\": \"KG\"," +
                 "\"user_id\": 1" +
@@ -90,6 +94,28 @@ public class CartControllerIntegrationTest {
 
     }
 
+   // Item Already Added
+
+    @Test
+    void shouldNotSaveProductWhenItemIsAlreadyAdded() throws Exception {
+
+        final String requestJson = "{" +
+                "\"product_id\": \"" + product.getId() + "\"," +
+                "\"magnitude\": 2," +
+                "\"unit\": \"KG\"," +
+                "\"user_id\": 1" +
+                "}";
+
+        mockMvc.perform(post("/cart/add")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                        .content(requestJson))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Item Already Added"));
+
+        assertThat(cartRepository.findAll().size(), is(1));
+
+    }
+
     @Test
     void shouldReturnCartDetailsWhenCartIsNotEmpty() throws Exception {
         mockMvc.perform(get("/cart/item"))
@@ -97,7 +123,7 @@ public class CartControllerIntegrationTest {
                 .andExpect(content().json("[{" +
                         "\"id\": "+cart.getId()+"," +
                         "\"item\":\"Onion\"," +
-                        "\"quantity\": {\"magnitude\":2.00,\"unit\":\"KG\"} ," +
+                        "\"quantity\": {\"magnitude\":2.00} ," +
                         "\"price\":40.00" +
 
                         "}]"));
@@ -125,7 +151,7 @@ public class CartControllerIntegrationTest {
     void shouldReturnTotalPriceWhenCartIsNotEmpty() throws Exception {
         mockMvc.perform(get("/cart/total_price"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("40.0000"));
+                .andExpect(content().string("40.00"));
 
     }
 
