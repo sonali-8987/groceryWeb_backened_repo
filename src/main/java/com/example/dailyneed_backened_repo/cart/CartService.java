@@ -36,7 +36,7 @@ public class CartService {
             quantity = Quantity.createKilogram(cartRequest.getMagnitude());
         else
             quantity = Quantity.createGram(cartRequest.getMagnitude());
-        BigDecimal magnitude = quantity.getBaseValue();
+        BigDecimal magnitude = quantity.getMagnitude();
         Cart cart = new Cart(product, magnitude, cartRequest.getUser_id());
         cartRepository.save(cart);
     }
@@ -51,7 +51,8 @@ public class CartService {
             Cart cart = carts.get(i);
             String item = cart.getProduct().getItem();
             BigDecimal price = cart.getProduct().getPrice().multiply( cart.getQuantity());
-            cartResponses.add(new CartResponse(cart.getId(),item, cart.getQuantity(),price));
+            Quantity quantity = Quantity.createKilogram(cart.getQuantity());
+            cartResponses.add(new CartResponse(cart.getId(),item, quantity,price));
         }
         return cartResponses;
     }

@@ -1,5 +1,7 @@
 package com.example.dailyneed_backened_repo.cart.view;
 
+import com.example.dailyneed_backened_repo.quantity.Quantity;
+import com.example.dailyneed_backened_repo.quantity.Unit;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
@@ -12,12 +14,13 @@ public class CartResponse {
     private String item;
 
     @JsonProperty
-    private BigDecimal quantity;
+    private Quantity quantity;
 
     @JsonProperty
     private BigDecimal price;
 
-    public CartResponse(Long id, String item, BigDecimal quantity, BigDecimal price) {
+
+    public CartResponse(Long id, String item, Quantity quantity,BigDecimal price) {
         this.id = id;
         this.item = item;
         this.quantity = quantity;

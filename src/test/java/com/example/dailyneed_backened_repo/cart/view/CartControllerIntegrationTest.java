@@ -97,7 +97,7 @@ public class CartControllerIntegrationTest {
                 .andExpect(content().json("[{" +
                         "\"id\": "+cart.getId()+"," +
                         "\"item\":\"Onion\"," +
-                        "\"quantity\":" + cart.getQuantity() + "," +
+                        "\"quantity\": {\"magnitude\":2.00,\"unit\":\"KG\"} ," +
                         "\"price\":40.00" +
 
                         "}]"));

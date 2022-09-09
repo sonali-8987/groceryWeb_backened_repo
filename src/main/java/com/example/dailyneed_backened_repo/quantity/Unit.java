@@ -6,13 +6,13 @@ public enum Unit {
     KG(BigDecimal.ONE),
     G(new BigDecimal(1000));
 
-    private final BigDecimal baseValue;
+    private final BigDecimal magnitude;
 
-    Unit(BigDecimal baseValue) {
-        this.baseValue = baseValue;
+    Unit(BigDecimal magnitude) {
+        this.magnitude = magnitude;
     }
 
     public BigDecimal convertToBase(BigDecimal value) {
-        return value.divide(baseValue);
+        return value.divide(magnitude);
     }
 }

@@ -7,10 +7,12 @@ public class Quantity {
     private final BigDecimal magnitude;
     private final Unit unit;
 
-    public Quantity(BigDecimal magnitude, Unit unit) {
+    private Quantity(BigDecimal magnitude, Unit unit) {
         this.magnitude = magnitude;
         this.unit = unit;
     }
+
+
     public static Quantity createKilogram(BigDecimal magnitude) {
         return new Quantity(magnitude, Unit.KG);
     }
@@ -36,9 +38,14 @@ public class Quantity {
         return Objects.hash(unit.convertToBase(magnitude));
     }
 
-    public BigDecimal getBaseValue() {
+    public BigDecimal getMagnitude() {
         return unit.convertToBase(magnitude);
     }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
 }
 
 
