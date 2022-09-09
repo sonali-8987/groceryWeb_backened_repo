@@ -3,6 +3,7 @@ package com.example.dailyneed_backened_repo.cart.repository;
 import com.example.dailyneed_backened_repo.product.repository.Product;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 
 @Entity
@@ -18,7 +19,7 @@ public class Cart {
 
 
     @Column(name = "quantity")
-    private Integer quantity;
+    private BigDecimal quantity;
 
     @Column(name = "user_id")
     private Long user_id;
@@ -26,7 +27,7 @@ public class Cart {
     public Cart() {
     }
 
-    public Cart(Product product, Integer quantity, Long user_id) {
+    public Cart(Product product, BigDecimal quantity, Long user_id) {
         this.product = product;
         this.quantity = quantity;
         this.user_id = user_id;
@@ -52,7 +53,7 @@ public class Cart {
         this.product = product;
     }
 
-    public Integer getQuantity() {
+    public BigDecimal getQuantity() {
         return this.quantity;
     }
 

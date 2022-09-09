@@ -62,7 +62,7 @@ public class CartControllerIntegrationTest {
 
         product = productRepository.save(new Product("Onion", new BigDecimal(20), category));
 
-        cart = cartRepository.save(new Cart(product, 2, 1L));
+        cart = cartRepository.save(new Cart(product, new BigDecimal(2), 1L));
     }
 
     @AfterEach
@@ -76,7 +76,8 @@ public class CartControllerIntegrationTest {
     void shouldSaveProductWhenDetailsAreValid() throws Exception {
         final String requestJson = "{" +
                 "\"product_id\": \"" + product.getId() + "\"," +
-                "\"quantity\": 2," +
+                "\"magnitude\": 2," +
+                "\"unit\": \"KG\"," +
                 "\"user_id\": 1" +
                 "}";
 
@@ -108,7 +109,7 @@ public class CartControllerIntegrationTest {
 
         Product newProduct = productRepository.save(new Product("Potato", new BigDecimal(30), category));
 
-        Cart newCart = cartRepository.save(new Cart(newProduct, 3, 1L));
+        Cart newCart = cartRepository.save(new Cart(newProduct, new BigDecimal(3), 1L));
 
 
         Long id = newCart.getId();
@@ -124,7 +125,7 @@ public class CartControllerIntegrationTest {
     void shouldReturnTotalPriceWhenCartIsNotEmpty() throws Exception {
         mockMvc.perform(get("/cart/total_price"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("40.00"));
+                .andExpect(content().string("40.0000"));
 
     }
 

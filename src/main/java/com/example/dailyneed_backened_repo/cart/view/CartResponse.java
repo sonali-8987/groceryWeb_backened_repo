@@ -12,13 +12,12 @@ public class CartResponse {
     private String item;
 
     @JsonProperty
-    private Integer quantity;
-
+    private BigDecimal quantity;
 
     @JsonProperty
     private BigDecimal price;
 
-    public CartResponse(Long id, String item, Integer quantity, BigDecimal price) {
+    public CartResponse(Long id, String item, BigDecimal quantity, BigDecimal price) {
         this.id = id;
         this.item = item;
         this.quantity = quantity;

@@ -36,6 +36,9 @@ public class Quantity {
         return Objects.hash(unit.convertToBase(magnitude));
     }
 
+    public BigDecimal getBaseValue() {
+        return unit.convertToBase(magnitude);
+    }
 }
 
 
