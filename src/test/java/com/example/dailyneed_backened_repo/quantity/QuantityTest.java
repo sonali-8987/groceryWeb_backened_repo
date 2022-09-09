@@ -14,4 +14,12 @@ public class QuantityTest {
         assertThat(oneKilogram, is(equalTo(anotherOneKilogram)));
     }
 
+    @Test
+    void shouldNotEquateOneKGToTwoKG() {
+        Quantity oneKilogram = Quantity.createKilogram(BigDecimal.ONE);
+        Quantity tenKilogram = Quantity.createKilogram(BigDecimal.TEN);
+
+        assertThat(oneKilogram, is(not(equalTo(tenKilogram))));
+    }
+
 }
