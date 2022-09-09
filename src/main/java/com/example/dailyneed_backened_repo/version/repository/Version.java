@@ -25,8 +25,5 @@ public class Version {
         return id;
     }
 
-    public String getCurrentVersion() {
-        return currentVersion;
-    }
 
 }

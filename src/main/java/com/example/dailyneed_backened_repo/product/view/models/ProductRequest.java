@@ -22,9 +22,6 @@ public class ProductRequest {
         return category_id;
     }
 
-    public void setCategory_id(Long category_id) {
-        this.category_id = category_id;
-    }
 
     public String getItem() {
         return item;

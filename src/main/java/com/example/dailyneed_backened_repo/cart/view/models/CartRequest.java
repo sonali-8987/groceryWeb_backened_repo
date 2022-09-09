@@ -1,6 +1,5 @@
 package com.example.dailyneed_backened_repo.cart.view.models;
 
-import com.example.dailyneed_backened_repo.quantity.Unit;
 
 import java.math.BigDecimal;
 

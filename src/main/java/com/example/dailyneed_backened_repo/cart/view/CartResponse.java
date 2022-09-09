@@ -1,7 +1,6 @@
 package com.example.dailyneed_backened_repo.cart.view;
 
 import com.example.dailyneed_backened_repo.quantity.Quantity;
-import com.example.dailyneed_backened_repo.quantity.Unit;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;

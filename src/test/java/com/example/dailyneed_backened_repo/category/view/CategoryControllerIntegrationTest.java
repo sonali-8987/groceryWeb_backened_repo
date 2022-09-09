@@ -27,7 +27,6 @@ public class CategoryControllerIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-
     @Autowired
     private CategoryRepository categoryRepository;
 

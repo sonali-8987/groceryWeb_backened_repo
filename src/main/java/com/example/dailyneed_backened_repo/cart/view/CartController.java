@@ -1,18 +1,13 @@
 package com.example.dailyneed_backened_repo.cart.view;
 
 import com.example.dailyneed_backened_repo.cart.CartService;
-import com.example.dailyneed_backened_repo.cart.repository.Cart;
 import com.example.dailyneed_backened_repo.cart.view.models.CartRequest;
 import com.example.dailyneed_backened_repo.exceptions.ItemAlreadyAddedException;
-import com.example.dailyneed_backened_repo.product.ProductService;
-import com.example.dailyneed_backened_repo.product.repository.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -20,14 +15,11 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController {
 
-    @Autowired
     private final CartService cartService;
 
-
     @Autowired
-    public CartController(CartService cartService, ProductService productService) {
+    public CartController(CartService cartService) {
         this.cartService = cartService;
-
     }
 
     @PostMapping("/add")
@@ -46,7 +38,6 @@ public class CartController {
     public ResponseEntity<List<CartResponse>> fetchAll() {
 
         List<CartResponse> cartResponses = cartService.getCart();
-
         return new ResponseEntity<>(cartResponses, HttpStatus.OK);
     }
 

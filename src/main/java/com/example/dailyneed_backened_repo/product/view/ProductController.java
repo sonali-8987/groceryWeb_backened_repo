@@ -16,8 +16,8 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+
+    private final ProductService productService;
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -50,39 +50,31 @@ public class ProductController {
     }
 
     @PutMapping(value = "/edit_product")
-public ResponseEntity editProductDetails(@RequestBody ProductUpdateRequest productUpdateRequest) {
+    public ResponseEntity editProductDetails(@RequestBody ProductUpdateRequest productUpdateRequest) {
 
         try {
             productService.updateProductDetails(productUpdateRequest);
 
             return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
-        }
-        catch (PriceCannotBeNegativeException e) {
+        } catch (PriceCannotBeNegativeException e) {
             return new ResponseEntity<>("Price Cannot Be Negative", HttpStatus.BAD_REQUEST);
 
-        }
-        catch (CategoryNotFoundException e) {
+        } catch (CategoryNotFoundException e) {
             return new ResponseEntity<>("Category Not Found", HttpStatus.BAD_REQUEST);
-        }
-        catch (ItemAlreadyExistException e) {
+        } catch (ItemAlreadyExistException e) {
             return new ResponseEntity<>("Item Already Present", HttpStatus.BAD_REQUEST);
-        }
-
-        catch (ProductNotFoundException e) {
-            return new ResponseEntity<>("Product Not Found",HttpStatus.BAD_REQUEST);
+        } catch (ProductNotFoundException e) {
+            return new ResponseEntity<>("Product Not Found", HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity removeProduct(@PathVariable Long id)
-    {
+    public ResponseEntity removeProduct(@PathVariable Long id) {
         try {
             productService.removeProduct(id);
             return new ResponseEntity<>("Product Removed Successfully", HttpStatus.OK);
-        }
-        catch(ProductNotFoundException e)
-        {
-            return new ResponseEntity<>("Product Not Found",HttpStatus.BAD_REQUEST);
+        } catch (ProductNotFoundException e) {
+            return new ResponseEntity<>("Product Not Found", HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -20,14 +20,12 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    @Autowired
     private final ProductRepository productRepository;
 
-    @Autowired
     private final CategoryService categoryService;
 
-
-    public ProductService(ProductRepository productRepository,CategoryService categoryService) {
+    @Autowired
+    public ProductService(ProductRepository productRepository, CategoryService categoryService) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
 
@@ -56,18 +54,18 @@ public class ProductService {
 
     public void updateProductDetails(ProductUpdateRequest productUpdateRequest) throws ProductNotFoundException, PriceCannotBeNegativeException, CategoryNotFoundException, ItemAlreadyExistException {
         Long id = productUpdateRequest.getId();
-        if(!checkIfProductExist(id))
+        if (!checkIfProductExist(id))
             throw new ProductNotFoundException();
 
         String item = productUpdateRequest.getItem();
         BigDecimal price = productUpdateRequest.getPrice();
         Long category_id = productUpdateRequest.getCategory_id();
 
-        if(!categoryService.checkIfCategoryExists(category_id))
+        if (!categoryService.checkIfCategoryExists(category_id))
             throw new CategoryNotFoundException();
 
         Category category = categoryService.findById(category_id);
-        Product product = new Product(id,item,price,category);
+        Product product = new Product(id, item, price, category);
 
 
         validateUpdatedPrice(product);
@@ -100,7 +98,7 @@ public class ProductService {
     }
 
     public void removeProduct(Long id) throws ProductNotFoundException {
-        if(!checkIfProductExist(id))
+        if (!checkIfProductExist(id))
             throw new ProductNotFoundException();
         productRepository.deleteById(id);
     }

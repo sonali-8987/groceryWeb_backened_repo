@@ -16,6 +16,7 @@ public class DataSeeder {
         return args -> {
             if(versionRepository.findAll().isEmpty())
                 versionRepository.save(new Version(1L,"V2"));
+
             if(categoryRepository.findAll().isEmpty()) {
                 categoryRepository.save(new Category(1L, "VEGETABLES"));
                 categoryRepository.save(new Category(2L,"FRUITS"));

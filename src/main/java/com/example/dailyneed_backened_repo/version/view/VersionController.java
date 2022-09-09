@@ -17,13 +17,13 @@ public class VersionController {
     }
 
     @GetMapping("/version")
-    public ResponseEntity versionResponse() throws VersionNotAvailableException {
+    public ResponseEntity versionResponse() {
 
         String currentVersion;
         try {
             currentVersion = versionService.findCurrentVersion();
         } catch (VersionNotAvailableException e) {
-            return new ResponseEntity<>("version not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("version not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(new VersionResponse(currentVersion), HttpStatus.OK);
     }

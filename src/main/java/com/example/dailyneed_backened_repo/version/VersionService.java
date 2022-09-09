@@ -2,12 +2,14 @@ package com.example.dailyneed_backened_repo.version;
 
 import com.example.dailyneed_backened_repo.exceptions.VersionNotAvailableException;
 import com.example.dailyneed_backened_repo.version.repository.VersionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VersionService {
     private final VersionRepository versionRepository;
 
+    @Autowired
     public VersionService(VersionRepository versionRepository) {
         this.versionRepository = versionRepository;
     }

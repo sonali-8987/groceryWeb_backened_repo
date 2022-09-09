@@ -57,7 +57,6 @@ public class CartControllerIntegrationTest {
         productRepository.deleteAll();
         categoryRepository.deleteAll();
 
-
         category = categoryRepository.save(new Category(1L, "VEGETABLES"));
 
         product = productRepository.save(new Product("Onion", new BigDecimal(20), category));
@@ -94,7 +93,6 @@ public class CartControllerIntegrationTest {
 
     }
 
-   // Item Already Added
 
     @Test
     void shouldNotSaveProductWhenItemIsAlreadyAdded() throws Exception {

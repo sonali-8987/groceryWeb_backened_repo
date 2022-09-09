@@ -1,7 +1,6 @@
 package com.example.dailyneed_backened_repo.product.view.models;
 
 import com.example.dailyneed_backened_repo.product.repository.Product;
-
 import java.math.BigDecimal;
 
 public class ProductUpdateRequest {
@@ -31,10 +30,6 @@ public class ProductUpdateRequest {
 
     public Long getCategory_id() {
         return category_id;
-    }
-
-    public void setCategory_id(Long category_id) {
-        this.category_id = category_id;
     }
 
     public String getItem() {

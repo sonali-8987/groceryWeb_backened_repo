@@ -15,7 +15,7 @@ public class QuantityTest {
     }
 
     @Test
-    void shouldNotEquateOneKGToTwoKG() {
+    void shouldNotEquateOneKGToTenKG() {
         Quantity oneKilogram = Quantity.createKilogram(BigDecimal.ONE);
         Quantity tenKilogram = Quantity.createKilogram(BigDecimal.TEN);
 
