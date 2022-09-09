@@ -15,6 +15,10 @@ public class Quantity {
         return new Quantity(magnitude, Unit.KG);
     }
 
+    public static Quantity createGram(BigDecimal magnitude) {
+        return new Quantity(magnitude, Unit.G);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -24,13 +28,14 @@ public class Quantity {
             return false;
         }
         Quantity quantity = (Quantity) obj;
-        return (magnitude.compareTo(quantity.magnitude) == 0);
+        return (unit.convertToBase(magnitude).compareTo(quantity.unit.convertToBase(quantity.magnitude)) == 0);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(magnitude);
+        return Objects.hash(unit.convertToBase(magnitude));
     }
+
 }
 
 

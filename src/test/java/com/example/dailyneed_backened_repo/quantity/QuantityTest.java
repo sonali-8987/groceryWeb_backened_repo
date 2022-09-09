@@ -22,4 +22,12 @@ public class QuantityTest {
         assertThat(oneKilogram, is(not(equalTo(tenKilogram))));
     }
 
+    @Test
+    void shouldEquateOneKGToOneThousandGram() {
+        Quantity oneKilogram = Quantity.createKilogram(BigDecimal.ONE);
+        Quantity oneThousandGram = Quantity.createGram(new BigDecimal(1000));
+
+        assertThat(oneKilogram, is(equalTo(oneThousandGram)));
+    }
+
 }
