@@ -25,7 +25,8 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity add(@Valid @RequestBody ProductRequest productRequest) {
+    @ResponseBody
+    public ResponseEntity<String> add(@Valid @RequestBody ProductRequest productRequest) {
         try {
             productService.add(productRequest);
             return new ResponseEntity<>("Product Successfully Added", HttpStatus.OK);
@@ -75,7 +76,10 @@ public class ProductController {
             return new ResponseEntity<>("Product Removed Successfully", HttpStatus.OK);
         } catch (ProductNotFoundException e) {
             return new ResponseEntity<>("Product Not Found", HttpStatus.BAD_REQUEST);
+        } catch (ProductExistInCartException e) {
+            return new ResponseEntity<>("Product Already Exist In Cart", HttpStatus.BAD_REQUEST);
         }
+
     }
 
 }

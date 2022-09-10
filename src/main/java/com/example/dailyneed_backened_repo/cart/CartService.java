@@ -81,4 +81,9 @@ public class CartService {
     public void resetCart() {
         cartRepository.deleteAll();
     }
+
+    public boolean checkIfProductPresent(Long id) {
+        return cartRepository.findByProductId(id).isPresent();
+    }
+
 }

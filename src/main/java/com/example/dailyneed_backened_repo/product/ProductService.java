@@ -1,17 +1,16 @@
 package com.example.dailyneed_backened_repo.product;
 
+import com.example.dailyneed_backened_repo.cart.CartService;
 import com.example.dailyneed_backened_repo.category.CategoryService;
 import com.example.dailyneed_backened_repo.category.repository.Category;
-import com.example.dailyneed_backened_repo.exceptions.CategoryNotFoundException;
-import com.example.dailyneed_backened_repo.exceptions.ItemAlreadyExistException;
-import com.example.dailyneed_backened_repo.exceptions.PriceCannotBeNegativeException;
-import com.example.dailyneed_backened_repo.exceptions.ProductNotFoundException;
+import com.example.dailyneed_backened_repo.exceptions.*;
 import com.example.dailyneed_backened_repo.product.repository.Product;
 import com.example.dailyneed_backened_repo.product.repository.ProductRepository;
 import com.example.dailyneed_backened_repo.product.view.models.ProductRequest;
 import com.example.dailyneed_backened_repo.product.view.models.ProductUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -24,11 +23,14 @@ public class ProductService {
 
     private final CategoryService categoryService;
 
+    private final CartService cartService;
+
     @Autowired
-    public ProductService(ProductRepository productRepository, CategoryService categoryService) {
+    public ProductService(ProductRepository productRepository, CategoryService categoryService, @Lazy CartService cartService) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
 
+        this.cartService = cartService;
     }
 
     public void add(ProductRequest productRequest) throws ItemAlreadyExistException, CategoryNotFoundException, PriceCannotBeNegativeException {
@@ -97,9 +99,11 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void removeProduct(Long id) throws ProductNotFoundException {
+    public void removeProduct(Long id) throws ProductNotFoundException, ProductExistInCartException {
         if (!checkIfProductExist(id))
             throw new ProductNotFoundException();
+        if(cartService.checkIfProductPresent(id))
+            throw new ProductExistInCartException();
         productRepository.deleteById(id);
     }
 
